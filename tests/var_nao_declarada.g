@@ -1,0 +1,4 @@
+principal
+{
+  x = 1;
+}
