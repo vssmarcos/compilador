@@ -16,6 +16,16 @@ void push_escopo(PilhaTabela *p) {
 }
 
 void inserir(PilhaTabela *p, const char *nome, TipoNo tipo) {
+    /* Adiciona uma variável recém declarada na tabela de símbolos do escopo atual */
+    /* Recebe: p -> pilha de escopos; nome -> o lexema do identificador; tipo -> int/car */
+    /* Checa redeclaração no mesmo escopo (verifica no bloco atual se tem nome igual a uma declarada)*/
+    for (EntradaTabela *e = p->topo->entradas; e != NULL; e = e->prox) {
+        if (strcmp(e->nome, nome) == 0) {
+            printf("ERRO: variavel '%s' ja declarada no mesmo escopo\n", nome);
+            exit(1);
+        }
+    }
+    // Cria uma entrada nova
     EntradaTabela *ent = malloc(sizeof(EntradaTabela));
     if (!ent) { fprintf(stderr, "Erro: sem memoria\n"); exit(1); }
     ent->nome   = strdup(nome);

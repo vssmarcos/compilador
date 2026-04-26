@@ -2,12 +2,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../include/ast.h"
-
+/*
+Arvore sintatica abstrata é a representação do codigo fonte em memória
+depois do parsing. Cada construção vira um nó na árvore
+*/
 /*----------------------------------------------------------------
  * criar_no: aloca um nó com dois filhos
  *----------------------------------------------------------------*/
 No *criar_no(TipoNo tipo, int linha, No *esq, No *dir) {
-    No *no = malloc(sizeof(No));
+    No *no = malloc(sizeof(No)); //aloca mempria
     if (!no) { fprintf(stderr, "Erro: sem memoria\n"); exit(1); }
     no->tipo  = tipo;
     no->linha = linha;
@@ -46,6 +49,7 @@ No *criar_no_folha(TipoNo tipo, int linha, const char *valor) {
 
 /*----------------------------------------------------------------
  * liberar_ast: percorre a árvore e libera toda a memória
+ * 
  *----------------------------------------------------------------*/
 void liberar_ast(No *no) {
     if (!no) return;

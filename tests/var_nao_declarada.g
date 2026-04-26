@@ -1,4 +1,0 @@
-principal
-{
-  x = 1;
-}

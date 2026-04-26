@@ -13,6 +13,10 @@
 #include <string.h>
 %}
 
+/* O flex tabalha com uma máquina de estados, por padrão o lexer esta sempre
+no estado INITAL. %x declara um novo estado exclusivo.
+Quando ele enxerga o simbolo troca para o estado comment
+*/
 %x COMMENT
 
 LETRA       [a-zA-Z_]
