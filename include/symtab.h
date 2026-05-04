@@ -4,11 +4,12 @@
 #include "ast.h"
 
 /* Uma entrada na tabela: identificador + tipo */
+/*Toda vez que tem alguma declaração nova*/
 typedef struct EntradaTabela {
     char                *nome;   /* lexema do identificador          */
     TipoNo               tipo;   /* NO_TIPO_INT ou NO_TIPO_CAR       */
     int                  offset; /* offset em bytes relativo a $fp   */
-    struct EntradaTabela *prox;  /* próxima entrada no mesmo escopo  */
+    struct EntradaTabela *prox;  /* próxima entrada no mesmo escopo - lista encadeada  */
 } EntradaTabela;
 
 /* Um escopo = uma tabela de símbolos (lista ligada de entradas) */
