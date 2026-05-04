@@ -46,6 +46,7 @@ ALFANUM     [a-zA-Z0-9_]
 "enquanto"              { return ENQUANTO;   }
 
     /* --- Identificador --- */
+    /* strdup faz uma cópia da string em memória nova e devolve o tipo de token */
 {LETRA}{ALFANUM}*       { yylval.str = strdup(yytext); return IDENTIFICADOR; }
 
     /* --- Constante inteira --- */

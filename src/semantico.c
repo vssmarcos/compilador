@@ -16,30 +16,34 @@ static void   analisar_comando   (No *no, PilhaTabela *p);
 TipoNo        analisar_expr_tipo (No *no, PilhaTabela *p);
 
 /* ----------------------------------------------------------------
- * Insere todas as variáveis de uma NO_LISTA_DECL no escopo do topo.
+ * Insere todas as variáveis de um sub-nó da ast no escopo do topo.
+ * Cada NO_LISTA_DECL tem na esq um no_decl_var e na direita a proxima declaração
  * Cada NO_DECL_VAR tem:
  *   esq  = NO_IDENT com 1º nome
  *   dir  = NO_TIPO_INT ou NO_TIPO_CAR
  *   extra = NO_LISTA_DECL com nomes adicionais (vírgula)
  * ---------------------------------------------------------------- */
 static void inserir_decls(No *lista, PilhaTabela *p) {
+    /*Para cada declaração da lista(ponteiro dir)*/
     for (No *ld = lista; ld != NULL; ld = ld->dir) {
         No *decl = ld->esq;                  /* NO_DECL_VAR              */
         TipoNo tipo = decl->dir->tipo;       /* NO_TIPO_INT ou NO_TIPO_CAR */
 
-        /* 1º nome */
+        /*Insere na tabela de simbolo*/
         inserir(p, decl->esq->valor, tipo);
 
-        /* nomes adicionais após vírgula */
+        /* nomes adicionais após vírgula (declração de varias variaveis)*/
         for (No *extra = decl->extra; extra != NULL; extra = extra->dir)
             inserir(p, extra->esq->valor, tipo);
     }
 }
 
 /* ---------------------------------------------------------------- */
+/*Recebe um nó do tipo NO_BLOCO da AST*/
+/*Pilha de escopos tb*/
 static void analisar_bloco(No *no, PilhaTabela *p) {
     int tem_decls = (no->esq != NULL);
-
+    /*Se tem declarações cria um novo escopo e insere elas na pilha*/
     if (tem_decls) {
         push_escopo(p);
         inserir_decls(no->esq, p);
@@ -51,13 +55,14 @@ static void analisar_bloco(No *no, PilhaTabela *p) {
         pop_escopo(p);
 }
 
-/* ---------------------------------------------------------------- */
+/* Percorre a lista de comandos */
 static void analisar_lista_cmd(No *no, PilhaTabela *p) {
     for (No *lc = no; lc != NULL; lc = lc->dir)
         analisar_comando(lc->esq, p);
 }
 
-/* ---------------------------------------------------------------- */
+/* Recebe um no que apresenta um comando específico */
+/* Recebe a pilha de escopos*/
 static void analisar_comando(No *no, PilhaTabela *p) {
     if (!no) return;
 
@@ -65,12 +70,12 @@ static void analisar_comando(No *no, PilhaTabela *p) {
         case NO_CMD_EXPR:
             analisar_expr_tipo(no->esq, p);
             break;
-
+        /*Só precisa checar se foi declarada*/
         case NO_CMD_LEIA:
             if (!buscar(p, no->valor))
                 erro_sem("variavel nao declarada", no->linha);
             break;
-
+        /*Verifica se o que ta dentro da expressão é valido*/
         case NO_CMD_ESCREVA:
             analisar_expr_tipo(no->esq, p);
             break;
@@ -78,11 +83,14 @@ static void analisar_comando(No *no, PilhaTabela *p) {
         case NO_CMD_ESCREVA_STR:
         case NO_CMD_NOVALINHA:
             break;
-
+        /*se (x > 0) { x = 1; } senao { x = 2; }*/
         case NO_CMD_SE:
+            /*Condicao x>0 - verifica se é int*/
             analisar_expr_tipo(no->esq, p);
+            /*Verifica recursivamente se o comando ta válido*/
             analisar_comando(no->dir, p);
             if (no->extra)
+                /*Verifica recursivamente de novo*/
                 analisar_comando(no->extra, p);
             break;
 
@@ -113,19 +121,23 @@ TipoNo analisar_expr_tipo(No *no, PilhaTabela *p) {
 
         case NO_CAR_CONST:
             return NO_TIPO_CAR;
-
+        
+        // Busca na tabela de símbolos e retorna o tipo com que ela foi declarada
         case NO_IDENT: {
             EntradaTabela *e = buscar(p, no->valor);
             if (!e)
                 erro_sem("variavel nao declarada", no->linha);
             return e->tipo;
         }
-
+        
         case NO_ATRIB: {
+            /*Busca na tabela para saber se a variavel foi declarada*/
             EntradaTabela *e = buscar(p, no->esq->valor);
             if (!e)
                 erro_sem("variavel nao declarada", no->esq->linha);
             t1 = e->tipo;
+            /*No-> dir é o nó de expressão*/
+            /*Chama recursivamente até achar o tipo*/
             t2 = analisar_expr_tipo(no->dir, p);
             if (t1 != t2)
                 erro_sem("tipos incompativeis na atribuicao", no->linha);

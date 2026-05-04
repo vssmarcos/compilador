@@ -7,14 +7,15 @@ void init_pilha(PilhaTabela *p) {
     p->topo = NULL;
 }
 
+// Chamada toda vez que entra num escopo {. Cria um espoco novo, vazio e coloca no topo
 void push_escopo(PilhaTabela *p) {
-    Escopo *e = malloc(sizeof(Escopo));
+    Escopo *e = malloc(sizeof(Escopo)); // memoria de um novo escopo
     if (!e) { fprintf(stderr, "Erro: sem memoria\n"); exit(1); }
     e->entradas = NULL;
-    e->anterior = p->topo;
-    p->topo = e;
+    e->anterior = p->topo; // novo anterior
+    p->topo = e; // novo topo
 }
-
+// Inserção no escopo atual
 void inserir(PilhaTabela *p, const char *nome, TipoNo tipo) {
     /* Adiciona uma variável recém declarada na tabela de símbolos do escopo atual */
     /* Recebe: p -> pilha de escopos; nome -> o lexema do identificador; tipo -> int/car */
@@ -45,8 +46,10 @@ EntradaTabela *buscar(PilhaTabela *p, const char *nome) {
     return NULL;
 }
 
+// Chamada ao sair de um bloco }, faz duas limpezas
 void pop_escopo(PilhaTabela *p) {
     if (!p->topo) return;
+    // pego escopo atual   
     Escopo *e = p->topo;
     EntradaTabela *ent = e->entradas;
     while (ent) {

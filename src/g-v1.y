@@ -139,8 +139,10 @@ void yyerror(const char *msg) {
 /* ----------------------------------------------------------------
  * Programa — raiz da gramática
  *
- * Toda a árvore parte daqui. Salvamos o nó raiz em raiz_ast para
- * acessá-la no main() depois que yyparse() terminar.
+ * Um Programa é composto por uma Declaração de Programa. Quando você
+ * terminar de reconhecer essa declaração, crie um nó oficial de árvore
+ * chamado 'PROGRAMA', coloque a declaração dentro dele e guarde o endereço
+ * desse nó na variável global para que eu possa usar depois.
  * ---------------------------------------------------------------- */
 Programa
     : DeclPrograma
@@ -149,7 +151,7 @@ Programa
     ;
 
 /* ----------------------------------------------------------------
- * DeclPrograma — "principal Bloco"
+ * DeclPrograma — "principal Bloco" - define que essa regra estar completa so precisa do "principal"
  *
  * O token PRINCIPAL não vira nó na AST; apenas $2 (o Bloco) é
  * propagado para cima. O nó PROGRAMA envolverá esse bloco.
@@ -183,6 +185,7 @@ Bloco
  *
  * É um bloco entre chaves contendo apenas declarações.
  * Retorna diretamente a lista de declarações ($2).
+ * Serve para validar a sintaxe das chaves
  * ---------------------------------------------------------------- */
 VarSection
     : '{' ListaDeclVar '}'
@@ -454,6 +457,7 @@ PrimExpr
  * 2. Chama yyparse(), que por sua vez chama yylex() repetidamente
  * 3. Se a análise foi bem-sucedida (retorno 0), imprime a AST
  *    e libera a memória
+ * Aqui eu basicamente monto as regras da AST e formo a estrutura valida
  * ================================================================ */
 int main(int argc, char **argv) {
     if (argc < 2) {
