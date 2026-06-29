@@ -565,12 +565,12 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   146,   146,   158,   175,   177,   188,   208,   214,   231,
-     232,   244,   245,   256,   258,   267,   271,   275,   279,   283,
-     287,   294,   301,   307,   311,   335,   337,   346,   348,   356,
-     358,   366,   368,   370,   378,   380,   382,   384,   386,   394,
-     396,   398,   406,   408,   410,   422,   424,   426,   438,   440,
-     442,   444
+       0,   148,   148,   160,   177,   179,   191,   211,   217,   234,
+     235,   247,   248,   259,   261,   270,   274,   278,   282,   286,
+     290,   297,   304,   310,   314,   338,   340,   349,   351,   359,
+     361,   369,   371,   373,   381,   383,   385,   387,   389,   397,
+     399,   401,   409,   411,   413,   425,   427,   429,   441,   443,
+     445,   447
 };
 #endif
 
@@ -1202,38 +1202,38 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* Programa: DeclPrograma  */
-#line 147 "src/g-v1.y"
+#line 149 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_PROGRAMA, yylineno, (yyvsp[0].no), NULL);
           raiz_ast = (yyval.no); }
 #line 1209 "build/g-v1.tab.c"
     break;
 
   case 3: /* DeclPrograma: PRINCIPAL Bloco  */
-#line 159 "src/g-v1.y"
+#line 161 "src/g-v1.y"
         { (yyval.no) = (yyvsp[0].no); }
 #line 1215 "build/g-v1.tab.c"
     break;
 
   case 4: /* Bloco: '{' ListaComando '}'  */
-#line 176 "src/g-v1.y"
+#line 178 "src/g-v1.y"
         { (yyval.no) = criar_no3(NO_BLOCO, yylineno, NULL, (yyvsp[-1].no), NULL); }
 #line 1221 "build/g-v1.tab.c"
     break;
 
   case 5: /* Bloco: VarSection '{' ListaComando '}'  */
-#line 178 "src/g-v1.y"
+#line 180 "src/g-v1.y"
         { (yyval.no) = criar_no3(NO_BLOCO, yylineno, (yyvsp[-3].no), (yyvsp[-1].no), NULL); }
 #line 1227 "build/g-v1.tab.c"
     break;
 
   case 6: /* VarSection: '{' ListaDeclVar '}'  */
-#line 189 "src/g-v1.y"
+#line 192 "src/g-v1.y"
         { (yyval.no) = (yyvsp[-1].no); }
 #line 1233 "build/g-v1.tab.c"
     break;
 
   case 7: /* ListaDeclVar: IDENTIFICADOR DeclVar ':' Tipo ';' ListaDeclVar  */
-#line 209 "src/g-v1.y"
+#line 212 "src/g-v1.y"
         { No *decl = criar_no(NO_DECL_VAR, yylineno,
                               criar_no_folha(NO_IDENT, yylineno, (yyvsp[-5].str)), (yyvsp[-2].no));
           /* encadeia os nomes adicionais ($2) no extra da decl */
@@ -1243,7 +1243,7 @@ yyreduce:
     break;
 
   case 8: /* ListaDeclVar: IDENTIFICADOR DeclVar ':' Tipo ';'  */
-#line 215 "src/g-v1.y"
+#line 218 "src/g-v1.y"
         { No *decl = criar_no(NO_DECL_VAR, yylineno,
                               criar_no_folha(NO_IDENT, yylineno, (yyvsp[-4].str)), (yyvsp[-1].no));
           decl->extra = (yyvsp[-3].no);
@@ -1252,261 +1252,261 @@ yyreduce:
     break;
 
   case 9: /* DeclVar: %empty  */
-#line 231 "src/g-v1.y"
+#line 234 "src/g-v1.y"
         { (yyval.no) = NULL; }
 #line 1258 "build/g-v1.tab.c"
     break;
 
   case 10: /* DeclVar: ',' IDENTIFICADOR DeclVar  */
-#line 233 "src/g-v1.y"
+#line 236 "src/g-v1.y"
         { No *id = criar_no_folha(NO_IDENT, yylineno, (yyvsp[-1].str));
           (yyval.no) = criar_no(NO_LISTA_DECL, yylineno, id, (yyvsp[0].no)); }
 #line 1265 "build/g-v1.tab.c"
     break;
 
   case 11: /* Tipo: INT  */
-#line 244 "src/g-v1.y"
+#line 247 "src/g-v1.y"
            { (yyval.no) = criar_no(NO_TIPO_INT, yylineno, NULL, NULL); }
 #line 1271 "build/g-v1.tab.c"
     break;
 
   case 12: /* Tipo: CAR  */
-#line 245 "src/g-v1.y"
+#line 248 "src/g-v1.y"
            { (yyval.no) = criar_no(NO_TIPO_CAR, yylineno, NULL, NULL); }
 #line 1277 "build/g-v1.tab.c"
     break;
 
   case 13: /* ListaComando: Comando  */
-#line 257 "src/g-v1.y"
+#line 260 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_LISTA_CMD, yylineno, (yyvsp[0].no), NULL); }
 #line 1283 "build/g-v1.tab.c"
     break;
 
   case 14: /* ListaComando: Comando ListaComando  */
-#line 259 "src/g-v1.y"
+#line 262 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_LISTA_CMD, yylineno, (yyvsp[-1].no), (yyvsp[0].no)); }
 #line 1289 "build/g-v1.tab.c"
     break;
 
   case 15: /* Comando: ';'  */
-#line 268 "src/g-v1.y"
+#line 271 "src/g-v1.y"
         { (yyval.no) = NULL; }
 #line 1295 "build/g-v1.tab.c"
     break;
 
   case 16: /* Comando: Expr ';'  */
-#line 272 "src/g-v1.y"
+#line 275 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_CMD_EXPR, yylineno, (yyvsp[-1].no), NULL); }
 #line 1301 "build/g-v1.tab.c"
     break;
 
   case 17: /* Comando: LEIA IDENTIFICADOR ';'  */
-#line 276 "src/g-v1.y"
+#line 279 "src/g-v1.y"
         { (yyval.no) = criar_no_folha(NO_CMD_LEIA, yylineno, (yyvsp[-1].str)); }
 #line 1307 "build/g-v1.tab.c"
     break;
 
   case 18: /* Comando: ESCREVA Expr ';'  */
-#line 280 "src/g-v1.y"
+#line 283 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_CMD_ESCREVA, yylineno, (yyvsp[-1].no), NULL); }
 #line 1313 "build/g-v1.tab.c"
     break;
 
   case 19: /* Comando: ESCREVA CADEIACARACTERES ';'  */
-#line 284 "src/g-v1.y"
+#line 287 "src/g-v1.y"
         { (yyval.no) = criar_no_folha(NO_CMD_ESCREVA_STR, yylineno, (yyvsp[-1].str)); }
 #line 1319 "build/g-v1.tab.c"
     break;
 
   case 20: /* Comando: NOVALINHA ';'  */
-#line 288 "src/g-v1.y"
+#line 291 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_CMD_NOVALINHA, yylineno, NULL, NULL); }
 #line 1325 "build/g-v1.tab.c"
     break;
 
   case 21: /* Comando: SE '(' Expr ')' ENTAO Comando FIMSE  */
-#line 295 "src/g-v1.y"
+#line 298 "src/g-v1.y"
         { (yyval.no) = criar_no3(NO_CMD_SE, yylineno, (yyvsp[-4].no), (yyvsp[-1].no), NULL); }
 #line 1331 "build/g-v1.tab.c"
     break;
 
   case 22: /* Comando: SE '(' Expr ')' ENTAO Comando SENAO Comando FIMSE  */
-#line 302 "src/g-v1.y"
+#line 305 "src/g-v1.y"
         { (yyval.no) = criar_no3(NO_CMD_SE, yylineno, (yyvsp[-6].no), (yyvsp[-3].no), (yyvsp[-1].no)); }
 #line 1337 "build/g-v1.tab.c"
     break;
 
   case 23: /* Comando: ENQUANTO '(' Expr ')' Comando  */
-#line 308 "src/g-v1.y"
+#line 311 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_CMD_ENQUANTO, yylineno, (yyvsp[-2].no), (yyvsp[0].no)); }
 #line 1343 "build/g-v1.tab.c"
     break;
 
   case 24: /* Comando: Bloco  */
-#line 312 "src/g-v1.y"
+#line 315 "src/g-v1.y"
         { (yyval.no) = (yyvsp[0].no); }
 #line 1349 "build/g-v1.tab.c"
     break;
 
   case 25: /* Expr: OrExpr  */
-#line 336 "src/g-v1.y"
+#line 339 "src/g-v1.y"
         { (yyval.no) = (yyvsp[0].no); }
 #line 1355 "build/g-v1.tab.c"
     break;
 
   case 26: /* Expr: IDENTIFICADOR '=' Expr  */
-#line 338 "src/g-v1.y"
+#line 341 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_ATRIB, yylineno,
                         criar_no_folha(NO_IDENT, yylineno, (yyvsp[-2].str)), (yyvsp[0].no)); }
 #line 1362 "build/g-v1.tab.c"
     break;
 
   case 27: /* OrExpr: OrExpr OU AndExpr  */
-#line 347 "src/g-v1.y"
+#line 350 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_OP_OU, yylineno, (yyvsp[-2].no), (yyvsp[0].no)); }
 #line 1368 "build/g-v1.tab.c"
     break;
 
   case 28: /* OrExpr: AndExpr  */
-#line 349 "src/g-v1.y"
+#line 352 "src/g-v1.y"
         { (yyval.no) = (yyvsp[0].no); }
 #line 1374 "build/g-v1.tab.c"
     break;
 
   case 29: /* AndExpr: AndExpr E EqExpr  */
-#line 357 "src/g-v1.y"
+#line 360 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_OP_E, yylineno, (yyvsp[-2].no), (yyvsp[0].no)); }
 #line 1380 "build/g-v1.tab.c"
     break;
 
   case 30: /* AndExpr: EqExpr  */
-#line 359 "src/g-v1.y"
+#line 362 "src/g-v1.y"
         { (yyval.no) = (yyvsp[0].no); }
 #line 1386 "build/g-v1.tab.c"
     break;
 
   case 31: /* EqExpr: EqExpr IGUAL DesigExpr  */
-#line 367 "src/g-v1.y"
+#line 370 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_OP_IGUAL, yylineno, (yyvsp[-2].no), (yyvsp[0].no)); }
 #line 1392 "build/g-v1.tab.c"
     break;
 
   case 32: /* EqExpr: EqExpr DIFERENTE DesigExpr  */
-#line 369 "src/g-v1.y"
+#line 372 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_OP_DIFER, yylineno, (yyvsp[-2].no), (yyvsp[0].no)); }
 #line 1398 "build/g-v1.tab.c"
     break;
 
   case 33: /* EqExpr: DesigExpr  */
-#line 371 "src/g-v1.y"
+#line 374 "src/g-v1.y"
         { (yyval.no) = (yyvsp[0].no); }
 #line 1404 "build/g-v1.tab.c"
     break;
 
   case 34: /* DesigExpr: DesigExpr '<' AddExpr  */
-#line 379 "src/g-v1.y"
+#line 382 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_OP_MENOR, yylineno, (yyvsp[-2].no), (yyvsp[0].no)); }
 #line 1410 "build/g-v1.tab.c"
     break;
 
   case 35: /* DesigExpr: DesigExpr '>' AddExpr  */
-#line 381 "src/g-v1.y"
+#line 384 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_OP_MAIOR, yylineno, (yyvsp[-2].no), (yyvsp[0].no)); }
 #line 1416 "build/g-v1.tab.c"
     break;
 
   case 36: /* DesigExpr: DesigExpr MAIORIGUAL AddExpr  */
-#line 383 "src/g-v1.y"
+#line 386 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_OP_MAIIG, yylineno, (yyvsp[-2].no), (yyvsp[0].no)); }
 #line 1422 "build/g-v1.tab.c"
     break;
 
   case 37: /* DesigExpr: DesigExpr MENORIGUAL AddExpr  */
-#line 385 "src/g-v1.y"
+#line 388 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_OP_MENIG, yylineno, (yyvsp[-2].no), (yyvsp[0].no)); }
 #line 1428 "build/g-v1.tab.c"
     break;
 
   case 38: /* DesigExpr: AddExpr  */
-#line 387 "src/g-v1.y"
+#line 390 "src/g-v1.y"
         { (yyval.no) = (yyvsp[0].no); }
 #line 1434 "build/g-v1.tab.c"
     break;
 
   case 39: /* AddExpr: AddExpr '+' MulExpr  */
-#line 395 "src/g-v1.y"
+#line 398 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_OP_SOMA, yylineno, (yyvsp[-2].no), (yyvsp[0].no)); }
 #line 1440 "build/g-v1.tab.c"
     break;
 
   case 40: /* AddExpr: AddExpr '-' MulExpr  */
-#line 397 "src/g-v1.y"
+#line 400 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_OP_SUB, yylineno, (yyvsp[-2].no), (yyvsp[0].no)); }
 #line 1446 "build/g-v1.tab.c"
     break;
 
   case 41: /* AddExpr: MulExpr  */
-#line 399 "src/g-v1.y"
+#line 402 "src/g-v1.y"
         { (yyval.no) = (yyvsp[0].no); }
 #line 1452 "build/g-v1.tab.c"
     break;
 
   case 42: /* MulExpr: MulExpr '*' UnExpr  */
-#line 407 "src/g-v1.y"
+#line 410 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_OP_MUL, yylineno, (yyvsp[-2].no), (yyvsp[0].no)); }
 #line 1458 "build/g-v1.tab.c"
     break;
 
   case 43: /* MulExpr: MulExpr '/' UnExpr  */
-#line 409 "src/g-v1.y"
+#line 412 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_OP_DIV, yylineno, (yyvsp[-2].no), (yyvsp[0].no)); }
 #line 1464 "build/g-v1.tab.c"
     break;
 
   case 44: /* MulExpr: UnExpr  */
-#line 411 "src/g-v1.y"
+#line 414 "src/g-v1.y"
         { (yyval.no) = (yyvsp[0].no); }
 #line 1470 "build/g-v1.tab.c"
     break;
 
   case 45: /* UnExpr: '-' PrimExpr  */
-#line 423 "src/g-v1.y"
+#line 426 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_OP_NEG, yylineno, (yyvsp[0].no), NULL); }
 #line 1476 "build/g-v1.tab.c"
     break;
 
   case 46: /* UnExpr: '!' PrimExpr  */
-#line 425 "src/g-v1.y"
+#line 428 "src/g-v1.y"
         { (yyval.no) = criar_no(NO_OP_NAO, yylineno, (yyvsp[0].no), NULL); }
 #line 1482 "build/g-v1.tab.c"
     break;
 
   case 47: /* UnExpr: PrimExpr  */
-#line 427 "src/g-v1.y"
+#line 430 "src/g-v1.y"
         { (yyval.no) = (yyvsp[0].no); }
 #line 1488 "build/g-v1.tab.c"
     break;
 
   case 48: /* PrimExpr: IDENTIFICADOR  */
-#line 439 "src/g-v1.y"
+#line 442 "src/g-v1.y"
         { (yyval.no) = criar_no_folha(NO_IDENT, yylineno, (yyvsp[0].str)); }
 #line 1494 "build/g-v1.tab.c"
     break;
 
   case 49: /* PrimExpr: INTCONST  */
-#line 441 "src/g-v1.y"
+#line 444 "src/g-v1.y"
         { (yyval.no) = criar_no_folha(NO_INT_CONST, yylineno, (yyvsp[0].str)); }
 #line 1500 "build/g-v1.tab.c"
     break;
 
   case 50: /* PrimExpr: CARCONST  */
-#line 443 "src/g-v1.y"
+#line 446 "src/g-v1.y"
         { (yyval.no) = criar_no_folha(NO_CAR_CONST, yylineno, (yyvsp[0].str)); }
 #line 1506 "build/g-v1.tab.c"
     break;
 
   case 51: /* PrimExpr: '(' Expr ')'  */
-#line 445 "src/g-v1.y"
+#line 448 "src/g-v1.y"
         { (yyval.no) = (yyvsp[-1].no); }
 #line 1512 "build/g-v1.tab.c"
     break;
@@ -1705,7 +1705,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 448 "src/g-v1.y"
+#line 451 "src/g-v1.y"
 
 
 /* ================================================================
@@ -1715,6 +1715,7 @@ yyreturnlab:
  * 2. Chama yyparse(), que por sua vez chama yylex() repetidamente
  * 3. Se a análise foi bem-sucedida (retorno 0), imprime a AST
  *    e libera a memória
+ * Aqui eu basicamente monto as regras da AST e formo a estrutura valida
  * ================================================================ */
 int main(int argc, char **argv) {
     if (argc < 2) {

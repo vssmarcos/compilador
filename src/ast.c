@@ -10,11 +10,12 @@ depois do parsing. Cada construção vira um nó na árvore
  * criar_no: aloca um nó com dois filhos
  *----------------------------------------------------------------*/
 No *criar_no(TipoNo tipo, int linha, No *esq, No *dir) {
-    No *no = malloc(sizeof(No)); //aloca mempria
+    No *no = malloc(sizeof(No));
     if (!no) { fprintf(stderr, "Erro: sem memoria\n"); exit(1); }
     no->tipo  = tipo;
     no->linha = linha;
     no->valor = NULL;
+    no->tam   = 0;
     no->esq   = esq;
     no->dir   = dir;
     no->extra = NULL;
@@ -44,6 +45,13 @@ No *criar_no_folha(TipoNo tipo, int linha, const char *valor) {
         if (!no->valor) { fprintf(stderr, "Erro: sem memoria\n"); exit(1); }
         strcpy(no->valor, valor);
     }
+    return no;
+}
+
+/* G-V2: cria folha com valor textual e tamanho (para declaração de vetor) */
+No *criar_no_folha_tam(TipoNo tipo, int linha, const char *valor, int tam) {
+    No *no = criar_no_folha(tipo, linha, valor);
+    no->tam = tam;
     return no;
 }
 
@@ -98,6 +106,20 @@ static const char *nome_tipo(TipoNo tipo) {
         case NO_INT_CONST:       return "INT_CONST";
         case NO_CAR_CONST:       return "CAR_CONST";
         case NO_CADEIA:          return "CADEIA";
+        /* G-V2 */
+        case NO_PROGRAMA_V2:     return "PROGRAMA_V2";
+        case NO_DECL_VAR_GLOBAIS:return "DECL_VAR_GLOBAIS";
+        case NO_DECL_FUNC:       return "DECL_FUNC";
+        case NO_FUNC:            return "FUNC";
+        case NO_LISTA_PARAM:     return "LISTA_PARAM";
+        case NO_PARAM:           return "PARAM";
+        case NO_PARAM_VET:       return "PARAM_VET";
+        case NO_DECL_VET:        return "DECL_VET";
+        case NO_CMD_RETORNE:     return "CMD_RETORNE";
+        case NO_CMD_LEIA_VET:    return "CMD_LEIA_VET";
+        case NO_CHAMADA_FUNC:    return "CHAMADA_FUNC";
+        case NO_LISTA_ARGS:      return "LISTA_ARGS";
+        case NO_IDENT_VET:       return "IDENT_VET";
         default:                 return "???";
     }
 }
@@ -113,7 +135,9 @@ void imprimir_ast(No *no, int nivel) {
     for (int i = 0; i < nivel; i++) printf("  ");
 
     /* imprime tipo e valor se houver */
-    if (no->valor)
+    if (no->valor && no->tam > 0)
+        printf("[%s] \"%s\"[%d] (linha %d)\n", nome_tipo(no->tipo), no->valor, no->tam, no->linha);
+    else if (no->valor)
         printf("[%s] \"%s\" (linha %d)\n", nome_tipo(no->tipo), no->valor, no->linha);
     else
         printf("[%s] (linha %d)\n", nome_tipo(no->tipo), no->linha);

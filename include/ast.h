@@ -57,7 +57,30 @@ typedef enum {
     NO_IDENT,          /* valor = nome do identificador                */
     NO_INT_CONST,      /* valor = string do número ("42", "-1")        */
     NO_CAR_CONST,      /* valor = string do caractere ("'a'")          */
-    NO_CADEIA          /* valor = string literal ("\"oi\"")            */
+    NO_CADEIA,         /* valor = string literal ("\"oi\"")            */
+
+    /* ── G-V2: estrutura do programa ── */
+    NO_PROGRAMA_V2,    /* esq=DeclVarGlobais, dir=DeclFunc, extra=Bloco principal */
+    NO_DECL_VAR_GLOBAIS, /* esq = NO_LISTA_DECL com vars globais       */
+    NO_DECL_FUNC,      /* lista de funções: esq=NO_FUNC, dir=próximo   */
+    NO_FUNC,           /* valor=nome, esq=params, dir=tipo_ret, extra=bloco */
+
+    /* ── G-V2: parâmetros ── */
+    NO_LISTA_PARAM,    /* esq = NO_PARAM ou NO_PARAM_VET, dir = próximo */
+    NO_PARAM,          /* valor=nome, dir=tipo (escalar)                */
+    NO_PARAM_VET,      /* valor=nome, dir=tipo (vetor sem tamanho)      */
+
+    /* ── G-V2: declaração de vetor ── */
+    NO_DECL_VET,       /* valor=nome, dir=tipo, tam=tamanho             */
+
+    /* ── G-V2: comandos novos ── */
+    NO_CMD_RETORNE,    /* esq = expressão de retorno                    */
+    NO_CMD_LEIA_VET,   /* esq = NO_IDENT_VET (leia a[i])               */
+
+    /* ── G-V2: expressões novas ── */
+    NO_CHAMADA_FUNC,   /* valor=nome_func, esq=NO_LISTA_ARGS (ou NULL)  */
+    NO_LISTA_ARGS,     /* esq = argumento (Expr), dir = próximo         */
+    NO_IDENT_VET       /* valor=nome, esq=índice (acesso a[i])          */
 
 } TipoNo;
 
@@ -75,6 +98,7 @@ typedef struct No {
     TipoNo      tipo;
     int         linha;
     char       *valor;
+    int         tam;   /* G-V2: tamanho do vetor na declaração (0 = não-vetor) */
     struct No  *esq;
     struct No  *dir;
     struct No  *extra;
@@ -92,6 +116,9 @@ No *criar_no3(TipoNo tipo, int linha, No *esq, No *dir, No *extra);
 
 /* Cria nó folha com valor textual (ident, constantes) */
 No *criar_no_folha(TipoNo tipo, int linha, const char *valor);
+
+/* Cria nó folha com valor textual e campo tam (G-V2: declaração de vetor) */
+No *criar_no_folha_tam(TipoNo tipo, int linha, const char *valor, int tam);
 
 /* Libera a árvore inteira recursivamente */
 void liberar_ast(No *no);

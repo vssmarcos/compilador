@@ -552,8 +552,12 @@ char *yytext;
 #include <stdlib.h>
 #include <string.h>
 #line 555 "build/lex.yy.c"
+/* O flex tabalha com uma máquina de estados, por padrão o lexer esta sempre
+no estado INITAL. %x declara um novo estado exclusivo.
+Quando ele enxerga o simbolo troca para o estado comment
+*/
 
-#line 557 "build/lex.yy.c"
+#line 561 "build/lex.yy.c"
 
 #define INITIAL 0
 #define COMMENT 1
@@ -771,12 +775,12 @@ YY_DECL
 		}
 
 	{
-#line 22 "src/g-v1.l"
+#line 26 "src/g-v1.l"
 
 
-#line 25 "src/g-v1.l"
+#line 29 "src/g-v1.l"
     /* --- Comentarios estilo C --- */
-#line 780 "build/lex.yy.c"
+#line 784 "build/lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -845,252 +849,253 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 26 "src/g-v1.l"
+#line 30 "src/g-v1.l"
 { BEGIN(COMMENT); }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 27 "src/g-v1.l"
+#line 31 "src/g-v1.l"
 { BEGIN(INITIAL); }
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 28 "src/g-v1.l"
+#line 32 "src/g-v1.l"
 { }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 29 "src/g-v1.l"
+#line 33 "src/g-v1.l"
 { }
 	YY_BREAK
 case YY_STATE_EOF(COMMENT):
-#line 30 "src/g-v1.l"
+#line 34 "src/g-v1.l"
 { printf("ERRO: COMENTARIO NAO TERMINA %d\n", yylineno); exit(1); }
 	YY_BREAK
 /* --- Palavras reservadas --- */
 case 5:
 YY_RULE_SETUP
-#line 33 "src/g-v1.l"
+#line 37 "src/g-v1.l"
 { return PRINCIPAL;  }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 34 "src/g-v1.l"
+#line 38 "src/g-v1.l"
 { return INT;        }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 35 "src/g-v1.l"
+#line 39 "src/g-v1.l"
 { return CAR;        }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 36 "src/g-v1.l"
+#line 40 "src/g-v1.l"
 { return LEIA;       }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 37 "src/g-v1.l"
+#line 41 "src/g-v1.l"
 { return ESCREVA;    }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 38 "src/g-v1.l"
+#line 42 "src/g-v1.l"
 { return NOVALINHA;  }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 39 "src/g-v1.l"
+#line 43 "src/g-v1.l"
 { return SE;         }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 40 "src/g-v1.l"
+#line 44 "src/g-v1.l"
 { return ENTAO;      }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 41 "src/g-v1.l"
+#line 45 "src/g-v1.l"
 { return SENAO;      }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 42 "src/g-v1.l"
+#line 46 "src/g-v1.l"
 { return FIMSE;      }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 43 "src/g-v1.l"
+#line 47 "src/g-v1.l"
 { return ENQUANTO;   }
 	YY_BREAK
 /* --- Identificador --- */
+/* strdup faz uma cópia da string em memória nova e devolve o tipo de token */
 case 16:
 YY_RULE_SETUP
-#line 46 "src/g-v1.l"
+#line 51 "src/g-v1.l"
 { yylval.str = strdup(yytext); return IDENTIFICADOR; }
 	YY_BREAK
 /* --- Constante inteira --- */
 case 17:
 YY_RULE_SETUP
-#line 49 "src/g-v1.l"
+#line 54 "src/g-v1.l"
 { yylval.str = strdup(yytext); return INTCONST; }
 	YY_BREAK
 /* --- Constante de caractere --- */
 case 18:
 YY_RULE_SETUP
-#line 52 "src/g-v1.l"
+#line 57 "src/g-v1.l"
 { yylval.str = strdup(yytext); return CARCONST; }
 	YY_BREAK
 case 19:
 /* rule 19 can match eol */
 YY_RULE_SETUP
-#line 53 "src/g-v1.l"
+#line 58 "src/g-v1.l"
 { yylval.str = strdup(yytext); return CARCONST; }
 	YY_BREAK
 /* --- Cadeia de caracteres --- */
 case 20:
 YY_RULE_SETUP
-#line 56 "src/g-v1.l"
+#line 61 "src/g-v1.l"
 { yylval.str = strdup(yytext); return CADEIACARACTERES; }
 	YY_BREAK
 case 21:
 /* rule 21 can match eol */
 YY_RULE_SETUP
-#line 57 "src/g-v1.l"
+#line 62 "src/g-v1.l"
 { printf("ERRO: CADEIA DE CARACTERES OCUPA MAIS DE UMA LINHA %d\n", yylineno - 1); exit(1); }
 	YY_BREAK
 /* --- Operadores de dois caracteres --- */
 case 22:
 YY_RULE_SETUP
-#line 60 "src/g-v1.l"
+#line 65 "src/g-v1.l"
 { return IGUAL;      }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 61 "src/g-v1.l"
+#line 66 "src/g-v1.l"
 { return DIFERENTE;  }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 62 "src/g-v1.l"
+#line 67 "src/g-v1.l"
 { return MAIORIGUAL; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 63 "src/g-v1.l"
+#line 68 "src/g-v1.l"
 { return MENORIGUAL; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 64 "src/g-v1.l"
+#line 69 "src/g-v1.l"
 { return OU;         }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 65 "src/g-v1.l"
+#line 70 "src/g-v1.l"
 { return E;          }
 	YY_BREAK
 /* --- Operadores de um caractere --- */
 case 28:
 YY_RULE_SETUP
-#line 68 "src/g-v1.l"
+#line 73 "src/g-v1.l"
 { return '+'; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 69 "src/g-v1.l"
+#line 74 "src/g-v1.l"
 { return '-'; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 70 "src/g-v1.l"
+#line 75 "src/g-v1.l"
 { return '*'; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 71 "src/g-v1.l"
+#line 76 "src/g-v1.l"
 { return '/'; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 72 "src/g-v1.l"
+#line 77 "src/g-v1.l"
 { return '='; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 73 "src/g-v1.l"
+#line 78 "src/g-v1.l"
 { return '!'; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 74 "src/g-v1.l"
+#line 79 "src/g-v1.l"
 { return '<'; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 75 "src/g-v1.l"
+#line 80 "src/g-v1.l"
 { return '>'; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 76 "src/g-v1.l"
+#line 81 "src/g-v1.l"
 { return '('; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 77 "src/g-v1.l"
+#line 82 "src/g-v1.l"
 { return ')'; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 78 "src/g-v1.l"
+#line 83 "src/g-v1.l"
 { return '{'; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 79 "src/g-v1.l"
+#line 84 "src/g-v1.l"
 { return '}'; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 80 "src/g-v1.l"
+#line 85 "src/g-v1.l"
 { return ';'; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 81 "src/g-v1.l"
+#line 86 "src/g-v1.l"
 { return ','; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 82 "src/g-v1.l"
+#line 87 "src/g-v1.l"
 { return ':'; }
 	YY_BREAK
 /* --- Espaços em branco --- */
 case 43:
 /* rule 43 can match eol */
 YY_RULE_SETUP
-#line 85 "src/g-v1.l"
+#line 90 "src/g-v1.l"
 { }
 	YY_BREAK
 /* --- Fim de arquivo --- */
 case YY_STATE_EOF(INITIAL):
-#line 88 "src/g-v1.l"
+#line 93 "src/g-v1.l"
 { return -1; }
 	YY_BREAK
 /* --- Caractere inválido --- */
 case 44:
 YY_RULE_SETUP
-#line 91 "src/g-v1.l"
+#line 96 "src/g-v1.l"
 { printf("ERRO: CARACTERE INVALIDO %d\n", yylineno); exit(1); }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 93 "src/g-v1.l"
+#line 98 "src/g-v1.l"
 ECHO;
 	YY_BREAK
-#line 1094 "build/lex.yy.c"
+#line 1099 "build/lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2105,6 +2110,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 93 "src/g-v1.l"
+#line 98 "src/g-v1.l"
 
 
